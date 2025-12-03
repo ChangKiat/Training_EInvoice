@@ -1,3 +1,8 @@
-FROM openjdk:22-jdk
-ADD target/einvoice.jar einvoice.jar
-ENTRYPOINT ["java","-jar","/einvoice.jar"]
+FROM eclipse-temurin:22-jdk
+
+WORKDIR /app
+COPY target/einvoice.jar app.jar
+
+EXPOSE 8080
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
