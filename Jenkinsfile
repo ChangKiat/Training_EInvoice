@@ -23,8 +23,12 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 bat '''
-                docker stop demo || exit 0
-                docker rm demo || exit 0
+                docker stop demo
+                IF %ERRORLEVEL% NEQ 0 echo Container not running, skip stop
+        
+                docker rm demo
+                IF %ERRORLEVEL% NEQ 0 echo Container not existing, skip remove
+        
                 docker run -d --name demo -p 8080:8080 springboot-demo
                 '''
             }
