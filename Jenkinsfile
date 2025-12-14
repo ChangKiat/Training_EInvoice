@@ -20,18 +20,13 @@ pipeline {
             }
         }
 
-        stage('Run Docker Container') {
-            steps {
-                bat '''
-                docker stop demo
-                IF %ERRORLEVEL% NEQ 0 echo Container not running, skip stop
-        
-                docker rm demo
-                IF %ERRORLEVEL% NEQ 0 echo Container not existing, skip remove
-        
-                docker run -d --name demo -p 8080:8080 springboot-demo
-                '''
-            }
-        }
+        stage('Run Docker Compose') {
+		    steps {
+		        bat '''
+		        docker-compose down
+		        docker-compose up -d --build
+		        '''
+		    }
+		}
     }
 }
